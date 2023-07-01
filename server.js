@@ -9,7 +9,7 @@ app.listen(3000, function () {
 app.get('/api/play/:key', function (req, res) {
     var key = req.params.key;
 
-    var music = 'Samples/' + key + '.mp3';
+    var music = 'samples/' + key + '.mp3';
 
     var stat = fs.statSync(music);
     range = req.headers.range;
