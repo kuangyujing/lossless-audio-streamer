@@ -2,7 +2,7 @@ var express = require('express');
 var app = express();
 var fs = require('fs');
 
-app.listen(3000, function () {
+app.listen(process.env.PORT, function () {
     console.log("[NodeJS] Application Listening on Port 3000");
 });
 
