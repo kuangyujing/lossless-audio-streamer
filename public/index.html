@@ -25,12 +25,32 @@
         <h3>Player</h3>
         <form>
             <input type="text" name="source" placeholder="file id ...">
-            <input type="button" name="play" value="Play" onClick="playFile(this.form)">
+            <input type="button" name="init" value="Init" onClick="initPlayer(this.form)">
             <input type="button" name="kill" value="Kill" onClick="killPlayer()">
         </form>
         <div id="player"></div>
+        <canvas></canvas>
+
+        <h3>File list</h3>
+        <button id="refresh" onClick="refreshFileList()">Refresh</button>
+        <ul id="filelist"></ul>
+
         <script>
-            const playFile = (form) => {
+            const refreshFileList = () => {
+                fetch('/filelist').then((response) => {
+                    return response.json()
+                }).then((json) => {
+                    const filelist = document.getElementById('filelist')
+                    filelist.innerHTML = ''
+                    json.forEach((file) => {
+                        const li = document.createElement('li')
+                        li.innerHTML = file
+                        filelist.appendChild(li)
+                    })
+                })
+            };
+
+            const initPlayer = (form) => {
                 const source = form.source.value
                 const player = document.getElementById('player')
                 player.innerHTML = `<audio controls><source src="/api/play/${source}"></audio>`

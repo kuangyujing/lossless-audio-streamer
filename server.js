@@ -178,7 +178,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
     console.log(`Received request to upload ${req.file.filename}`)
     // add .mp3 extension since simple upload does not have it
     fs.renameSync(req.file.path, req.file.path + '.mp3')
-    res.send(req.file.filename + '.mp3')
+    res.send({ "filename": req.file.filename + '.mp3' })
 })
 
 app.post('/convert/:filename', (req, res) => {
@@ -206,6 +206,17 @@ app.post('/convert/:filename', (req, res) => {
         console.log(stderr)
     })
     res.send('OK')
+})
+
+app.get('/filelist', (req, res) => {
+    console.log("Received request to get file list")
+    fs.readdir(filestore, (err, files) => {
+        if (err) {
+            console.log(err)
+            return
+        }
+        res.send(files)
+    })
 })
 
 app.get('/', function (req, res) {
