@@ -4,5 +4,75 @@
         <title>lossless audio streamer</title>
     </head>
     <body>
+        <h2>upload file to server</h2>
+        <form>
+            <input id="file" type="file" name="file">
+            <input type="button" name="upload" value="Upload" onClick="uploadFile(this.form)">
+        </form>
+        <!-- response from /upload here -->
+        <p id="filename"></p>
+
+        <h2>mute part of mp3 file</h2>
+        <form>
+            <input type="text" name="filename" placeholder="file id ..."> <br>
+            <input type="number" name="start"> sec ~
+            <input type="number" name="end"> sec
+            <input type="button" name="convert" value="Convert" onClick="convertFile(this.form)">
+        </form>
+        <!-- if /convert success, put success here -->
+        <p id=" status"></p>
+
+        <h3>Player</h3>
+        <form>
+            <input type="text" name="source" placeholder="file id ...">
+            <input type="button" name="play" value="Play" onClick="playFile(this.form)">
+            <input type="button" name="kill" value="Kill" onClick="killPlayer()">
+        </form>
+        <div id="player"></div>
+        <script>
+            const playFile = (form) => {
+                const source = form.source.value
+                const player = document.getElementById('player')
+                player.innerHTML = `<audio controls><source src="/api/play/${source}"></audio>`
+            };
+
+            const killPlayer = () => {
+                const player = document.getElementById('player')
+                player.innerHTML = ''
+            };
+
+            const uploadFile = (form) => {
+                const file = form.file.files[0]
+                const formData = new FormData()
+                formData.append('file', file)
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                }).then((response) => {
+                    return response.json()
+                }).then((json) => {
+                    document.getElementById('filename').innerHTML = json.filename
+                })
+            };
+
+            const convertFile = (form) => {
+                const filename = form.filename.value
+                const start = form.start.value
+                const end = form.end.value
+                const payload = {
+                    start: start,
+                    end: end,
+                }
+                console.log(`filename: ${filename}, start: ${start}, end: ${end}`)
+                console.log(payload)
+                fetch('/convert/' + filename, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload),
+                })
+            }
+        </script>
     </body>
 </html>
