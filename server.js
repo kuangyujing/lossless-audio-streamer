@@ -31,7 +31,7 @@ app.get('/api/play/:key', (req, res) => {
     const key = req.params.key
 
     // TODO switch file for paid/free users
-    const music = 'samples/' + key + '.mp3'
+    const music = filestore + key + '.mp3'
 
     const stat = fs.statSync(music)
     range = req.headers.range
@@ -80,7 +80,7 @@ app.get('/api/play/:userid/:key', (req, res) => {
     const key = req.params.key
 
     const userid = req.params.userid
-    const music = 'samples/' + key + '-' + userid + '.mp3'
+    const music = filestore + key + '-' + userid + '.mp3'
 
     const stat = fs.statSync(music)
     range = req.headers.range
