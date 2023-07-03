@@ -4,6 +4,7 @@
         <title>lossless audio streamer</title>
     </head>
     <body>
+        <img src="banner.png">
         <h2>upload file to server</h2>
         <form>
             <input id="file" type="file" name="file">
@@ -22,7 +23,7 @@
         <!-- if /convert success, put success here -->
         <p id=" status"></p>
 
-        <h3>Player</h3>
+        <h2>Player</h2>
         <form>
             <input type="text" name="source" placeholder="file id ...">
             <input type="button" name="init" value="Init" onClick="initPlayer(this.form)">
@@ -30,7 +31,7 @@
         </form>
         <div id="player"></div>
 
-        <h3>File list</h3>
+        <h2>File list</h2>
         <button id="refresh" onClick="refreshFileList()">Refresh</button>
         <ul id="filelist"></ul>
 
