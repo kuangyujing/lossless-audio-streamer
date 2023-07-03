@@ -10,7 +10,7 @@ const MYSQLDATABASE = process.env.MYSQLDATABASE
 const MYSQLUSER = process.env.MYSQLUSER
 const MYSQLPASSWORD = process.env.MYSQLPASSWORD
 
-const filestore = 'filestore'
+const filestore = 'filestore/'
 const multer = require('multer')
 const upload = multer({ dest: filestore })
 
@@ -194,7 +194,7 @@ app.post('/convert/:filename', (req, res) => {
     }
 
     // mute part of mp3 from `start` sec to `end` sec and save as `filename`-muted.mp3
-    const batch = 'ffmpeg -i ' + filestore + '/' + filename + '.mp3' + ' -af "volume=enable=\'between(t,' + start + ',' + end + ')\':volume=0" ' + filestore + '/' + filename + '-muted.mp3'
+    const batch = 'ffmpeg -i ' + filestore + filename + '.mp3' + ' -af "volume=enable=\'between(t,' + start + ',' + end + ')\':volume=0" ' + filestore + filename + '-muted.mp3'
     // execute command in bash
     const exec = require('child_process').exec
     exec(batch, (err, stdout, stderr) => {
